@@ -12,7 +12,7 @@ try:
     with open('config.json') as f:
         data = json.load(f)
 
-    path = data["path"]
+    path = data["path"] + "\\"
     maximage = data["maximage"]
     autostart = data["autostart"]
 
@@ -30,9 +30,8 @@ full_path = ['{}{}'.format(path, x) for x in list_of_files]
 
 
 while len(list_of_files) >= maximage:
-    print(len(list_of_files))
+    len(list_of_files)
     oldest_file = min(full_path, key=os.path.getctime)
-    print(oldest_file)
     os.remove(os.path.abspath(oldest_file))
     list_of_files = os.listdir(path)
     full_path = ['{}{}'.format(path, x) for x in list_of_files]
@@ -61,13 +60,15 @@ def convert_rgb_to_names(rgb_tuple):
     distance, index = kdt_db.query(rgb_tuple)
     return names[index]
 
-print(convert_rgb_to_names((r,g,b)))
+convert_rgb_to_names((r,g,b))
 
 #save image
-imgpath = path + f"randomimg{convert_rgb_to_names((r,g,b))}.png"
+imgpath = path + f"{convert_rgb_to_names((r,g,b))}.png"
 img.save(imgpath)
 
 #set image as background
 ctypes.windll.user32.SystemParametersInfoW(20, 0, imgpath , 0)
+
+print("successful")
 
 

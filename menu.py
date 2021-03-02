@@ -4,21 +4,20 @@ import json
 USER_NAME = getpass.getuser()
 
 
-def change_path(path):
+def change_config(key,value):
     #get config-datas
     try:
         with open('config.json') as f:
             data = json.load(f)
-
-
-        print(data["path"])
-        print(data["maximage"])
-        print(data["autostart"])
-
-       # data["autostart"]=False
-       # json.dump(data,f)
-        #print(data["autostart"])
-
+        f.close()
+    
+        #change config-datas
+        print(f"{data[key]} to")
+        data[key]=value
+        f = open('config.json','w')
+        json.dump(data,f)
+        print(data[key])
+        
 
     except:
         print("Error reading json File")
@@ -31,12 +30,14 @@ def add_to_startup(file_path=""):
     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
     with open(bat_path + '\\' + "open.bat", "w+") as bat_file:
         bat_file.write(r'python "%s"' % file_path)
+    change_config("autostart",True)
 
 
 def delete_from_startup():
     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\open.bat' % USER_NAME
     if os.path.exists(bat_path):
         os.remove(bat_path)
+    change_config("autostart",False)
 
 
 while True:
@@ -50,13 +51,16 @@ while True:
     if ans=="1": 
         path = input("\nPlease Input your Path:")
         if os.path.exists(path):
-            print("Changed Path")
+            change_config("path",path)
+            
 
         else:
             print("Could not find Path")
+
     elif ans=="2":
         answer = input("\nPlease input max Pictures:")
-        if isinstance(answer, int):
+        if (int(answer)>0):
+            change_config("maximage",int(answer))
             print("Changed max Pictures")
 
         else:
