@@ -22,7 +22,12 @@ def change_config(key,value):
     except:
         print("Error reading json File")
 
-
+def change_path():
+    path = input("\nPlease Input your Path:")
+    if os.path.exists(path):
+        change_config("path",path)
+    else:
+        print("Could not find Path")
 
 def add_to_startup(file_path=""):
     if file_path == "":
@@ -40,46 +45,42 @@ def delete_from_startup():
     change_config("autostart",False)
 
 
-while True:
-    print ("""
-    1.Change Path
-    2.Change max Pictures
-    3.Change Autostart
-    4.Exit/Quit
-    """)
-    ans=input("What would you like to do?") 
-    if ans=="1": 
-        path = input("\nPlease Input your Path:")
-        if os.path.exists(path):
-            change_config("path",path)
-            
+def openConfig():
+    while True:
+        print ("""
+        1.Change Path
+        2.Change max Pictures
+        3.Change Autostart
+        4.Exit/Quit
+        """)
+        ans=input("What would you like to do?") 
+        if ans=="1": 
+            change_path()
+                
 
-        else:
-            print("Could not find Path")
+        elif ans=="2":
+            answer = input("\nPlease input max Pictures:")
+            if (int(answer)>0):
+                change_config("maximage",int(answer))
+                print("Changed max Pictures")
 
-    elif ans=="2":
-        answer = input("\nPlease input max Pictures:")
-        if (int(answer)>0):
-            change_config("maximage",int(answer))
-            print("Changed max Pictures")
+            else:
+                print("Input is not integer")
 
-        else:
-            print("Input is not integer")
+        elif ans=="3":
+            answer = input("Should the Script be in Autostart? [y/n]:")
+            if answer == "y":
+                add_to_startup("C:/Users/Lara Laim/iCloudDrive/tbz/122/wallee.py")
+                print("Added to autostart")
+            elif answer == "n":
+                print("Deleted from Autostart")
+                delete_from_startup()
+        
+        elif ans=="4":
+            break
 
-    elif ans=="3":
-        answer = input("Should the Script be in Autostart? [y/n]:")
-        if answer == "y":
-            add_to_startup("C:/Users/Lara Laim/iCloudDrive/tbz/122/wallee.py")
-            print("Added to autostart")
-        elif answer == "n":
-            print("Deleted from Autostart")
-            delete_from_startup()
-    
-    elif ans=="4":
-      break
-
-    elif ans !="":
-      print("\n Not Valid Choice Try again") 
+        elif ans !="":
+            print("\n Not Valid Choice Try again") 
 
 
 
