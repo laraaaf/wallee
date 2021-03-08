@@ -1,6 +1,7 @@
 import getpass
 import os
 import json
+import pathlib
 USER_NAME = getpass.getuser()
 
 
@@ -36,6 +37,7 @@ def add_to_startup(file_path=""):
     with open(bat_path + '\\' + "open.bat", "w+") as bat_file:
         bat_file.write(r'python "%s"' % file_path)
     change_config("autostart",True)
+    change_config("walleepath",file_path)
 
 
 def delete_from_startup():
@@ -43,6 +45,7 @@ def delete_from_startup():
     if os.path.exists(bat_path):
         os.remove(bat_path)
     change_config("autostart",False)
+    change_config("walleepath","")
 
 
 def openConfig():
@@ -70,7 +73,8 @@ def openConfig():
         elif ans=="3":
             answer = input("Should the Script be in Autostart? [y/n]:")
             if answer == "y":
-                add_to_startup("C:/Users/Lara Laim/iCloudDrive/tbz/122/wallee.py")
+                wpath = f"{pathlib.Path(__file__).parent.absolute()}\wallee.py"
+                add_to_startup(wpath)
                 print("Added to autostart")
             elif answer == "n":
                 print("Deleted from Autostart")
@@ -81,7 +85,6 @@ def openConfig():
 
         elif ans !="":
             print("\n Not Valid Choice Try again") 
-
 
 
 #delete_from_startup()
