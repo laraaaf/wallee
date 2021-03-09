@@ -35,7 +35,8 @@ def add_to_startup(file_path=""):
         file_path = os.path.dirname(os.path.realpath(__file__))
     bat_path = r'C:\Users\%s\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup' % USER_NAME
     with open(bat_path + '\\' + "open.bat", "w+") as bat_file:
-        bat_file.write(r'python "%s"' % file_path)
+        bat_file.write(r'''cd "%s"
+        python -c "from wallee import*; generatePicture()"''' % file_path)
     change_config("autostart",True)
     change_config("walleepath",file_path)
 
@@ -73,7 +74,7 @@ def openConfig():
         elif ans=="3":
             answer = input("Should the Script be in Autostart? [y/n]:")
             if answer == "y":
-                wpath = f"{pathlib.Path(__file__).parent.absolute()}\wallee.py"
+                wpath = f"{pathlib.Path(__file__).parent.absolute()}"
                 add_to_startup(wpath)
                 print("Added to autostart")
             elif answer == "n":
