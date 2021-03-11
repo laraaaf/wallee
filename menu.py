@@ -24,7 +24,7 @@ def change_config(key,value):
         print("Error reading json File")
 
 def change_path():
-    path = input("\nPlease Input your Path:")
+    path = input("\nPlease Input your Path where the image should be stored:")
     if os.path.exists(path):
         change_config("path",path)
     else:
